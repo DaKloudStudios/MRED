@@ -1,0 +1,106 @@
+
+.neon-button {
+  padding: 20px 60px;
+  background-color: #000;
+  border: none;
+  font-size: 18px;
+  position: relative;
+  transition: 500ms;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.neon-button span {
+  color: #9ca3af; /* gray-400 */
+  position: relative;
+  z-index: 10;
+  transition: 500ms;
+  transition-delay: 500ms;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+}
+
+.neon-button:before {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 0%;
+  left: 50%;
+  right: 50%;
+  top: 50%;
+  bottom: 50%;
+  transition: 500ms;
+  transition-delay: 500ms;
+  background-color: #dc2626; /* Brand Red */
+  box-shadow: 0 0 10px #dc2626,
+   0 0 30px #dc2626, 
+   0 0 50px #dc2626;
+  z-index: 0;
+}
+
+.neon-button .neon-border {
+  transition: 500ms;
+  position: absolute;
+  background-color: #dc2626;
+  box-shadow: 0 0 15px #dc2626, 0 0 30px #dc2626, 0 0 50px #dc2626;
+  z-index: 5;
+}
+
+.neon-button .top {
+  width: 15px;
+  height: 2px;
+  top: 0;
+  left: 0;
+}
+
+.neon-button .bottom {
+  width: 15px;
+  height: 2px;
+  bottom: 0;
+  right: 0;
+}
+
+.neon-button .left {
+  width: 2px;
+  height: 15px;
+  top: 0;
+  left: 0;
+}
+
+.neon-button .right {
+  width: 2px;
+  height: 15px;
+  bottom: 0;
+  right: 0;
+}
+
+.neon-button:hover {
+  color: #fff;
+}
+
+.neon-button:hover span {
+  color: #fff;
+}
+
+.neon-button:hover:before {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.neon-button:hover .top, 
+.neon-button:hover .bottom {
+  width: 100%;
+}
+
+.neon-button:hover .left,
+.neon-button:hover .right {
+  height: 100%;
+}
