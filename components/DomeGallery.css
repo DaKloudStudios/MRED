@@ -1,4 +1,3 @@
-
 .sphere-root {
   position: relative;
   width: 100%;
@@ -63,9 +62,9 @@ main.sphere-main {
 }
 
 .overlay--blur {
-  -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
-  mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
-  backdrop-filter: blur(3px);
+  /* Removed heavy backdrop-filter and mask-image for performance */
+  background: radial-gradient(rgba(0, 0, 0, 0) 60%, var(--overlay-blur-color, #060010) 100%);
+  pointer-events: none;
 }
 
 .item {
@@ -80,9 +79,7 @@ main.sphere-main {
   transform-origin: 50% 50%;
   backface-visibility: hidden;
   transition: transform 300ms;
-  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
-    rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
-    translateZ(var(--radius));
+  transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg))) rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg))) translateZ(var(--radius));
 }
 
 .item__image {
@@ -112,7 +109,8 @@ main.sphere-main {
   object-fit: cover;
   pointer-events: none;
   backface-visibility: hidden;
-  filter: var(--image-filter, none);
+  /* Removed heavy CSS filters that crash framerates on 3D */
+  filter: none;
 }
 
 .viewer {

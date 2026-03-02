@@ -50,8 +50,6 @@ const getDataNumber = (el: HTMLElement, name: string, fallback: number) => {
 };
 
 function buildItems(pool: (string | ImageItem)[], seg: number, isMobile: boolean) {
-  // Mobile: Step 3 (wide)
-  // Desktop: Standard step 2
   const stepX = isMobile ? 3 : 2;
 
   // Total units around sphere is seg * 2
@@ -91,15 +89,24 @@ function buildItems(pool: (string | ImageItem)[], seg: number, isMobile: boolean
     return { src: image.src || '', alt: image.alt || '' };
   });
 
-  const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
-
-  // Full random shuffle of all slots
-  for (let i = usedImages.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [usedImages[i], usedImages[j]] = [usedImages[j], usedImages[i]];
+  // Since we need to fill the entire sphere (usually ~175 slots) 
+  // but only have ~52 unique images, we must loop them. 
+  // We shuffle the pool first so the sequence is completely random.
+  let allImages: typeof normalizedImages = [];
+  while (allImages.length < totalSlots) {
+    const shuffledPool = [...normalizedImages];
+    for (let i = shuffledPool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledPool[i], shuffledPool[j]] = [shuffledPool[j], shuffledPool[i]];
+    }
+    allImages.push(...shuffledPool);
   }
 
-  // Swap to avoid adjacent duplicates
+  // Draw exactly `totalSlots` number of images to complete the 360 sphere
+  const usedImages = allImages.slice(0, totalSlots);
+
+  // Final swap pass to ensure no identical images accidentally landed directly 
+  // next to each other during the array concatenation
   for (let i = 1; i < usedImages.length; i++) {
     if (usedImages[i].src === usedImages[i - 1].src) {
       for (let j = i + 1; j < usedImages.length; j++) {
