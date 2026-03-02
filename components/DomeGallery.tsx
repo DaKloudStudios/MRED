@@ -50,7 +50,7 @@ const getDataNumber = (el: HTMLElement, name: string, fallback: number) => {
 };
 
 function buildItems(pool: (string | ImageItem)[], seg: number, isMobile: boolean) {
-  const stepX = isMobile ? 3 : 2;
+  const stepX = 3;
 
   // Total units around sphere is seg * 2
   const totalUnits = seg * 2;
@@ -63,14 +63,12 @@ function buildItems(pool: (string | ImageItem)[], seg: number, isMobile: boolean
 
   const xCols = Array.from({ length: colCount }, (_, i) => startIdx + i * stepX);
 
-  const evenYs = [-4, -2, 0, 2, 4];
-  const oddYs = [-3, -1, 1, 3, 5];
+  const evenYs = [-3, 0, 3];
+  const oddYs = [-4.5, -1.5, 1.5, 4.5];
 
-  // Seamless Pattern Optimization:
-  // On mobile, use size 3.05 (vs step 3) and 2.05 (vs vertical step 2) 
-  // to creating a slight overlap and eliminate black gaps.
-  const itemSizeX = isMobile ? 3.05 : 2;
-  const itemSizeY = isMobile ? 2.05 : 2;
+  // Seamless Pattern Optimization: Add small overlap (0.05) to eliminate black gaps
+  const itemSizeX = 3.05;
+  const itemSizeY = 3.05;
 
   const coords = xCols.flatMap((x, c) => {
     const ys = c % 2 === 0 ? evenYs : oddYs;
@@ -189,9 +187,9 @@ export default function DomeGallery({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Use 21 segments for mobile to ensure (21 * 2 = 42) is divisible by stepX (3),
-  // creating a perfect seamless wrap without gaps.
-  const effectiveSegments = isMobile ? 21 : segments;
+  // Use seamless 33 segments for desktop (66 / 3 = 22 cols), 21 for mobile (42 / 3 = 14 cols)
+  // to ensure perfectly divisible math for a seamless spherical wrap.
+  const effectiveSegments = isMobile ? 21 : 33;
 
   const lockScroll = useCallback(() => {
     if (scrollLockedRef.current) return;
